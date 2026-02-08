@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Guide - Yamashita & Matsuda Family</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Noto Sans JP', sans-serif; }
+        .font-serif { font-family: 'Noto Serif JP', serif; }
+        .text-shadow { text-shadow: 0 2px 8px rgba(0,0,0,0.6); }
+        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+        /* Modal for map zoom */
+        #mapModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background-color: rgba(0,0,0,0.9);
+            padding: 1rem;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        #mapModal.active { display: flex; }
+
+        @media print {
+            .no-print { display: none; }
+            body { background-color: white; }
+            .shadow-2xl { box-shadow: none; border: 1px solid #e5e7eb; }
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800 pb-12">
+
+    <!-- Header Section -->
+    <div class="relative h-[320px] bg-stone-800 flex items-end justify-center overflow-hidden">
+        <div class="absolute inset-0 bg-stone-900">
+            <img src="https://lh3.googleusercontent.com/d/1mMV9gMzjbFfXsw5vxfzWQ5LAYbrB6vkn"
+                alt="前撮り写真"
+                class="w-full h-full object-cover opacity-90"
+                onerror="this.src='https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1000'">
+            <div class="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-900/10 to-transparent"></div>
+        </div>
+        <div class="relative text-center px-4 pb-10 w-full">
+            <h1 class="text-white text-2xl font-serif mb-1.5 tracking-[0.2em] text-shadow text-center">Wedding Guide</h1>
+            <p class="text-stone-300 text-[9px] uppercase tracking-[0.3em] font-light text-center">Yamashita & Matsuda Family</p>
+            <div class="mt-5 flex justify-center">
+                <div class="px-5 py-1.5 border border-white/30 bg-black/40 backdrop-blur-md text-white text-[8px] tracking-widest font-light">
+                    2026.02.22 at HAPPO-EN
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-md mx-auto px-6 -mt-6 relative z-10">
+        <!-- Welcome Card -->
+        <div class="bg-white p-6 rounded-2xl shadow-2xl mb-6 text-center border border-stone-100">
+            <p class="text-[10px] leading-relaxed text-stone-500">
+                新しく生まれ変わった八芳園とともに<br/>
+                皆様に素晴らしい一日を過ごしていただけるようガイドをご用意しました
+            </p>
+        </div>
+
+        <!-- Staff Support Section -->
+        <div class="bg-[#1c1c1c] text-white p-5 rounded-2xl shadow-lg mb-8 border border-stone-700 relative overflow-hidden">
+            <div class="absolute -right-6 -top-6 opacity-10">
+                <i data-lucide="heart-handshake" style="width: 100px; height: 100px;"></i>
+            </div>
+            <div class="relative">
+                <h2 class="flex items-center text-[10px] font-bold mb-3 tracking-widest text-amber-200 uppercase">
+                    <i data-lucide="heart-handshake" class="mr-2 w-4 h-4 text-amber-400"></i>
+                    八芳園スタッフにお任せください
+                </h2>
+                <p class="text-[10px] leading-relaxed text-stone-300 font-light">
+                    会場内は広いですが、至る所におもてなしのスタッフがおりますのでご安心ください。場所がわからない時など、お近くのスタッフへお気軽に
+                    <span class="text-white font-bold border-b border-stone-500">「山下・松田家の挙式に出席」</span>
+                    とお伝えいただければ、スムーズにご案内いたします。
+                </p>
+            </div>
+        </div>
+
+        <!-- Garden Spots Section -->
+        <h2 class="flex items-center text-lg font-serif mb-5 border-l-4 border-stone-800 pl-4 text-stone-800 tracking-wider">
+            <i data-lucide="sparkles" class="mr-2 w-5 h-5"></i>
+            八芳園のおすすめポイント
+        </h2>
+
+        <!-- Garden Map -->
+        <div class="mb-5 bg-white rounded-2xl shadow-md overflow-hidden border border-stone-100">
+            <div class="relative group cursor-zoom-in" onclick="openMapModal()">
+                <img src="https://lh3.googleusercontent.com/d/17SfT5mW8gqwcU9XKsz0lZjnS-jZDKzaa"
+                     alt="八芳園園内マップ"
+                     id="mapImage"
+                     class="w-full h-auto transition duration-300 group-hover:opacity-90"
+                     onerror="this.src='https://images.unsplash.com/photo-1503917988258-f87a78e3c995?auto=format&fit=crop&q=80&w=1000'">
+                <div class="absolute bottom-2 right-2 bg-black/50 backdrop-blur-sm text-white p-1 rounded-full opacity-70">
+                    <i data-lucide="maximize-2" class="w-3 h-3"></i>
+                </div>
+            </div>
+            <div class="p-2 text-center">
+                <p class="text-[8px] text-stone-500 font-bold italic">園内マップ (クリックで拡大)</p>
+            </div>
+        </div>
+
+        <div class="grid gap-3 mb-10">
+            <!-- Historic Garden -->
+            <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-stone-100 flex h-22">
+                <div class="w-1/3 overflow-hidden bg-stone-100">
+                    <img src="https://lh3.googleusercontent.com/d/1bqHZEzy9BaqIULYn-yhxZSVK3IeL590H" class="w-full h-full object-cover" alt="歴史のある庭園" onerror="this.src='https://images.unsplash.com/photo-1557456170-0cf4f4d0d362?auto=format&fit=crop&q=80&w=400'">
+                </div>
+                <div class="w-2/3 p-3 flex flex-col justify-center text-left">
+                    <div class="flex items-center gap-1 mb-0.5">
+                        <i data-lucide="history" class="w-2.5 h-2.5 text-stone-400"></i>
+                        <span class="text-[8px] uppercase tracking-widest text-stone-400 font-bold">History</span>
+                    </div>
+                    <h3 class="font-bold text-stone-800 text-xs">歴史のある名庭園</h3>
+                    <p class="text-[9px] text-stone-500 mt-0.5 leading-snug">400年の歴史を誇る名庭園。樹齢500年の盆栽もぜひご覧ください。</p>
+                </div>
+            </div>
+
+            <!-- Renewal -->
+            <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-stone-100 flex min-h-[5.5rem]">
+                <div class="w-1/3 overflow-hidden bg-stone-100">
+                    <img src="https://lh3.googleusercontent.com/d/1t18RjEK_30NlT6-2sZqgW99MwO5N_guT" class="w-full h-full object-cover" alt="新しい空間" onerror="this.src='https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=400'">
+                </div>
+                <div class="w-2/3 p-3 flex flex-col justify-center text-left">
+                    <div class="flex items-center gap-1 mb-0.5">
+                        <i data-lucide="sparkles" class="w-2.5 h-2.5 text-amber-500"></i>
+                        <span class="text-[8px] uppercase tracking-widest text-stone-400 font-bold">Renewal</span>
+                    </div>
+                    <h3 class="font-bold text-stone-800 text-xs">新しくなった空間</h3>
+                    <p class="text-[9px] text-stone-500 mt-0.5 leading-snug">伝統とモダンが融合した、新しく上質な空間です。</p>
+
+                    <div class="mt-2 flex flex-col gap-1.5">
+                        <a href="https://note.com/happoen/n/n7068e1c212fe" target="_blank" class="flex items-center gap-1.5 text-[8px] text-[#24b4a1] font-bold bg-teal-50 border border-teal-100 p-1 rounded hover:bg-teal-100 transition-colors">
+                            <svg class="w-3 h-3" viewBox="0 0 40 40" fill="currentColor">
+                                <path d="M31.2,5H8.8C6.7,5,5,6.7,5,8.8v22.4C5,33.3,6.7,35,8.8,35h22.4c2.1,0,3.8-1.7,3.8-3.8V8.8C35,6.7,33.3,5,31.2,5z M25.8,27.1h-2.1l-6.2-9.6v9.6h-2.4V12.9h2.1l6.2,9.6v-9.6h2.4V27.1z"/>
+                            </svg>
+                            メインロビー創作の秘話
+                        </a>
+                        <a href="https://note.com/happoen/n/n738393a7f926" target="_blank" class="flex items-center gap-1.5 text-[8px] text-[#24b4a1] font-bold bg-teal-50 border border-teal-100 p-1 rounded hover:bg-teal-100 transition-colors">
+                            <svg class="w-3 h-3" viewBox="0 0 40 40" fill="currentColor">
+                                <path d="M31.2,5H8.8C6.7,5,5,6.7,5,8.8v22.4C5,33.3,6.7,35,8.8,35h22.4c2.1,0,3.8-1.7,3.8-3.8V8.8C35,6.7,33.3,5,31.2,5z M25.8,27.1h-2.1l-6.2-9.6v9.6h-2.4V12.9h2.1l6.2,9.6v-9.6h2.4V27.1z"/>
+                            </svg>
+                            挙式会場デザインヒストリー
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lobby View -->
+            <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-stone-100 flex h-22">
+                <div class="w-1/3 overflow-hidden bg-stone-100">
+                    <img src="https://lh3.googleusercontent.com/d/1WvHjzCUQ4PAi2U9sz7hTT0SZxGwk1G7o" class="w-full h-full object-cover" alt="ロビー眺望" onerror="this.src='https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=400'">
+                </div>
+                <div class="w-2/3 p-3 flex flex-col justify-center text-left">
+                    <span class="text-[8px] uppercase tracking-widest text-stone-400 font-bold mb-0.5 text-amber-600">Best View</span>
+                    <h3 class="font-bold text-stone-800 text-xs">ロビーからの眺望</h3>
+                    <p class="text-[9px] text-stone-500 mt-0.5 leading-snug">本館ロビーの先に広がる、庭園パノラマは必見。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline Section -->
+        <h2 class="flex items-center text-lg font-serif mb-3 border-l-4 border-stone-800 pl-4 text-stone-800 tracking-wider">
+            <i data-lucide="clock" class="mr-2 w-5 h-5"></i>
+            当日の楽しみ方ガイド
+        </h2>
+
+        <div class="space-y-4 mb-10">
+            <!-- 08:00 (Optional) -->
+            <div class="flex flex-col bg-white rounded-2xl shadow-md overflow-hidden border border-stone-50 relative">
+                <div class="absolute top-2 right-2 z-10 bg-amber-100 text-amber-800 text-[7px] font-bold px-2 py-0.5 rounded-full tracking-wider">任意</div>
+                <div class="h-24 overflow-hidden bg-stone-100">
+                    <img src="https://lh3.googleusercontent.com/d/1NIrYenIPJQZTFwcnqYtxxgEWKDReRlCL" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=800'">
+                </div>
+                <div class="p-3">
+                    <div class="flex items-center gap-2 mb-0.5">
+                        <span class="text-[9px] tracking-tight text-stone-400 font-bold">8:00 OPEN</span>
+                        <h3 class="font-bold text-stone-800 text-sm">早めにお越しの方へ</h3>
+                    </div>
+                    <p class="text-[10px] text-stone-600 leading-relaxed"><span class="font-bold text-stone-700">本館1F</span>の「FUDO」は8:00から営業しています。お時間に余裕のある方は、庭園を眺めながら優雅な朝のひとときをお過ごしいただけます。</p>
+                    <a href="https://happo-en.com/restaurants-and-gifts/fudo/#menu" target="_blank" class="mt-1.5 inline-flex items-center gap-1 text-[9px] text-amber-700 font-bold border border-amber-200 bg-amber-50 px-2 py-1 rounded-lg hover:bg-amber-100 transition-colors">
+                        <i data-lucide="external-link" class="w-3 h-3"></i>
+                        FUDOのメニューを見る
+                    </a>
+                    <p class="text-[8px] text-stone-400 mt-1.5 italic">※ 必須ではありません。集合時間は 9:25 です。</p>
+                </div>
+            </div>
+
+            <!-- 09:25 (Required) -->
+            <div class="flex flex-col bg-white rounded-2xl shadow-md overflow-hidden border-2 border-amber-300 ring-1 ring-amber-200 relative">
+                <div class="absolute top-2 right-2 z-10 bg-red-600 text-white text-[7px] font-bold px-2 py-0.5 rounded-full tracking-wider">必須</div>
+                <div class="h-24 overflow-hidden bg-stone-100">
+                    <img src="https://lh3.googleusercontent.com/d/1YXf155frZoFAQZoTPguA_jcQ411Ae7bh" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=800'">
+                </div>
+                <div class="p-3">
+                    <div class="flex items-center gap-2 mb-0.5">
+                        <span class="font-bold text-base tracking-tighter text-amber-700">09:25</span>
+                        <h3 class="font-bold text-stone-800 text-sm">ご集合（4F）</h3>
+                    </div>
+                    <p class="text-[10px] text-stone-600 leading-relaxed"><span class="font-bold text-stone-800">こちらが集合時間です。</span>本館4階のご列席者控室へお越しください。会場内スタッフが案内いたします。</p>
+                    <div class="mt-2 bg-stone-50 rounded-lg p-2 flex items-start gap-2">
+                        <i data-lucide="info" class="w-3.5 h-3.5 text-stone-400 mt-0.5 shrink-0"></i>
+                        <p class="text-[9px] text-stone-500 leading-relaxed">本館1Fに<span class="font-bold text-stone-700">更衣室</span>がございます。お着替えや<span class="font-bold text-stone-700">お荷物のお預け</span>にご利用ください。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 09:45 -->
+            <div class="bg-white p-3 rounded-2xl shadow-md border border-stone-100 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-7 h-7 rounded-full bg-stone-50 flex items-center justify-center">
+                        <i data-lucide="church" class="w-3.5 h-3.5 text-stone-400"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-base tracking-tighter">09:45-10:15</span>
+                        <span class="ml-2 font-bold text-xs tracking-wide text-stone-800">挙式</span>
+                    </div>
+                </div>
+                <p class="text-[9px] text-stone-500">Celebration Hall -The GARDEN-</p>
+            </div>
+
+            <!-- 10:45 -->
+            <div class="bg-white p-3 rounded-2xl shadow-md border border-stone-100 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-7 h-7 rounded-full bg-stone-50 flex items-center justify-center">
+                        <i data-lucide="utensils" class="w-3.5 h-3.5 text-stone-400"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-base tracking-tighter">10:45-13:45</span>
+                        <span class="ml-2 font-bold text-xs tracking-wide text-stone-800">披露宴</span>
+                    </div>
+                </div>
+                <p class="text-[9px] text-stone-500">本館3F「TAKENIWA -竹庭-」</p>
+            </div>
+
+            <!-- 13:50 (Optional) -->
+            <div class="flex flex-col bg-white rounded-2xl shadow-md overflow-hidden border border-stone-50 relative">
+                <div class="absolute top-2 right-2 z-10 bg-amber-100 text-amber-800 text-[7px] font-bold px-2 py-0.5 rounded-full tracking-wider">おすすめ</div>
+                <div class="h-24 overflow-hidden bg-stone-100">
+                    <img src="https://lh3.googleusercontent.com/d/1rCuwbnQ0oL9vvPyvMSs_iEE0JmnMGCV4" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1520854221956-c75c32244a04?auto=crop&q=80&w=800'">
+                </div>
+                <div class="p-3">
+                    <div class="flex items-center gap-2 mb-0.5">
+                        <span class="font-bold text-base tracking-tighter text-stone-400">13:50-15:00</span>
+                        <h3 class="font-bold text-stone-800 text-sm">お庭の散策</h3>
+                    </div>
+                    <p class="text-[10px] text-stone-600 leading-relaxed">お時間のある方はぜひ、広大な庭園での散策や写真撮影をお楽しみください。四季折々の美しい景色が広がります。</p>
+                    <p class="text-[8px] text-stone-400 mt-1.5 italic">※ 二次会までのお時間を利用してご自由にお過ごしください。</p>
+                </div>
+            </div>
+
+            <!-- 15:00 (希望者のみ) -->
+            <div class="flex flex-col bg-white rounded-2xl shadow-md overflow-hidden border border-stone-50 relative">
+                <div class="absolute top-2 right-2 z-10 bg-amber-100 text-amber-800 text-[7px] font-bold px-2 py-0.5 rounded-full tracking-wider">希望者のみ</div>
+                <div class="h-24 overflow-hidden bg-stone-100 relative">
+                    <img src="https://lh3.googleusercontent.com/d/1RrHkizE_PGCCZyjGsmhlcypAdOSG8hI0"
+                         class="w-full h-full object-cover"
+                         alt="二次会"
+                         onerror="this.src='https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=crop&q=80&w=800'">
+                </div>
+                <div class="p-3">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="font-bold text-base tracking-tighter text-amber-700">15:00-18:00</span>
+                        <h3 class="font-bold text-xs uppercase tracking-wider text-stone-800">二次会</h3>
+                    </div>
+                    <p class="text-[10px] text-stone-600 leading-relaxed mb-2">参加をご希望の方は、下記フォームよりご回答をお願いいたします。</p>
+                    <p class="text-[10px] text-stone-600 leading-relaxed mb-3 flex items-center justify-between">
+                        <span>場所：スナック「支えあい」@恵比寿</span>
+                        <a href="https://maps.app.goo.gl/wuSnTtmyMQ8eHSd17" target="_blank" class="text-amber-700 font-bold flex items-center gap-0.5 ml-2 border-b border-stone-200">
+                            <i data-lucide="map-pin" class="w-3 h-3"></i>
+                            <span>地図</span>
+                        </a>
+                    </p>
+
+                    <a href="https://forms.gle/dCfQCPoiteDmeWrx7" target="_blank" class="flex items-center justify-center gap-2 bg-stone-800 text-white py-2.5 rounded-xl hover:bg-stone-900 transition-all text-center group">
+                        <i data-lucide="send" class="w-3.5 h-3.5 text-amber-300 group-hover:translate-x-1 transition-transform"></i>
+                        <span class="font-bold text-[10px] tracking-widest uppercase">参加回答はこちら</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Photo Sharing Box Section -->
+        <div class="mb-12">
+            <h2 class="flex items-center text-lg font-serif mb-4 border-l-4 border-stone-800 pl-4 text-stone-800 tracking-wider">
+                <i data-lucide="camera" class="mr-2 w-5 h-5"></i>
+                思い出の写真をシェア
+            </h2>
+            <div class="bg-white p-5 rounded-2xl shadow-lg border border-stone-100">
+                <p class="text-[10px] text-stone-500 mb-4 leading-relaxed">
+                    本日の素敵なお写真は、こちらの「写真BOX」へアップロードをお願いいたします。皆様が撮影された思い出を共有いただけると嬉しいです！
+                </p>
+                <a href="https://www.weddingshare.me/weddings/rdcvj1h7dguxw9gd/2pjB5TBEaNQFmVCLgBxXuvHmMA5Yz8jX?openExternalBrowser=1&type=link"
+                    target="_blank"
+                    class="flex items-center justify-center gap-3 bg-amber-50 text-amber-900 py-3.5 rounded-xl border border-amber-200 hover:bg-amber-100 transition-all group">
+                    <i data-lucide="image-plus" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                    <span class="font-bold text-xs tracking-widest">写真BOXを開く</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center text-stone-400 text-[9px] space-y-1.5 mb-8 border-t border-stone-200 pt-6 uppercase font-light">
+            <p>&copy; 2026 Yamashita & Matsuda Wedding</p>
+            <p>Thank you for being part of our story</p>
+        </div>
+    </div>
+
+    <!-- Map Zoom Modal -->
+    <div id="mapModal" onclick="closeMapModal()">
+        <button class="absolute top-4 right-4 text-white p-2">
+            <i data-lucide="x" class="w-8 h-8"></i>
+        </button>
+        <img src="" id="modalImg" class="max-w-full max-h-full object-contain shadow-2xl rounded-sm">
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function openMapModal() {
+            const modal = document.getElementById('mapModal');
+            const modalImg = document.getElementById('modalImg');
+            const originalImg = document.getElementById('mapImage');
+            modalImg.src = originalImg.src;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMapModal() {
+            const modal = document.getElementById('mapModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    </script>
+</body>
+</html>
